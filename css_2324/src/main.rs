@@ -33,12 +33,12 @@ fn read_i32() -> i32 {
 
 fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
     println!("a: {a}, b: {b}");
-    if b == 0 {
-        println!("d: {a}, x: 1, y: 0");
+    let tuple = if b == 0 {
         (a, 1, 0)
     } else {
         let (d, x, y) = extended_euclidian_algorithm(b, a % b);
-        println!("d: {d}, x: {y}, y: {}", (x - (a / b) * y));
         (d, y, x - (a / b) * y)
-    }
+    };
+    println!("d: {}, x: {}, y: {}", tuple.0, tuple.1, tuple.2);
+    tuple
 }
