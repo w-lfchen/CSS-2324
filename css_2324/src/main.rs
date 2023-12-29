@@ -2,14 +2,15 @@ use std::io;
 
 fn main() {
     println!("Please enter the first number and press enter.");
-    let a = read_u32();
+    let a = read_i32();
     println!("Please enter the second number and press enter.");
-    let b = read_u32();
+    let b = read_i32();
 
-    extended_euclidian_algorithm(a, b);
+    let (d, k, l) = extended_euclidian_algorithm(a, b);
+    println!("ggT({a}, {b}) = {d} = {k} * {a} + {l} * {b}");
 }
 
-fn read_u32() -> u32 {
+fn read_i32() -> i32 {
     let mut buffer = String::new();
     let mut input;
     let mut val;
@@ -20,17 +21,24 @@ fn read_u32() -> u32 {
             .expect("Unable to read from stdin!");
         input = buffer.trim();
         // parse input, evaluate block to val for the wile let loop
-        val = input.parse::<u32>();
+        val = input.parse::<i32>();
         val.is_err()
     } {
         println!("Invalid input: <{input}>, please try again.");
         buffer.clear();
     }
-    // invariant: val is now a valid u32
+    // invariant: val is now a valid i32
     val.expect("How did we get here?")
 }
 
-fn extended_euclidian_algorithm(a: u32, b: u32) {
-    // testing implementation
+fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
     println!("a: {a}, b: {b}");
+    if b == 0 {
+        println!("d: {a}, x: 1, y: 0");
+        (a, 1, 0)
+    } else {
+        let (d, x, y) = extended_euclidian_algorithm(b, a % b);
+        println!("d: {d}, x: {y}, y: {}", (x - (a / b) * y));
+        (d, y, x - (a / b) * y)
+    }
 }
