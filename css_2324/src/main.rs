@@ -1,11 +1,31 @@
 use std::io;
 
 fn main() {
-    println!("Please enter the first number and press enter.");
-    let a = read_i32();
-    println!("Please enter the second number and press enter.");
-    let b = read_i32();
-
+    let (mut a, mut b);
+    // get a and b
+    while {
+        println!("Please enter the first number (a) and press enter.");
+        while {
+            a = read_i32();
+            a <= 0
+        } {
+            println!("a: {a} needs to be greater than 0!");
+        }
+        // a is now valid
+        println!("Please enter the second number (b) and press enter.");
+        while {
+            b = read_i32();
+            b <= 0
+        } {
+            println!("b : {b} needs to be greater than 0!");
+        }
+        // b is now valid, now last checks
+        a <= b
+    } {
+        println!("a: {a} needs to be greater than b: {b}!")
+    }
+    // numbers are good, calculate now
+    println!("Calculation of ggT({a}, {b}):");
     let (d, k, l) = extended_euclidian_algorithm(a, b);
     println!("ggT({a}, {b}) = {d} = {k} * {a} + {l} * {b}");
 }
