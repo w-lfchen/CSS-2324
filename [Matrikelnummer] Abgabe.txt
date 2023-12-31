@@ -1,0 +1,154 @@
+= Bonusuebung CSS 23/24
+
+
+== Studierendeninformationen
+
+<Vorname>, <Nachname>, <Matrikelnummer>, <Zugewiesene CSS-ID>
+
+
+
+== Aufgabe 1
+
+Geben Sie Ihren Code separat ab. Folgen Sie der genannten Bennenungskonvention ("[Matrikelnummer]_Aufgabe1.[Dateiendung]").
+Falls Ihr Code aus mehreren Dateien besteht, soll der Code als ZIP-Archiv abgegeben werden.
+
+=== Loesung 1
+
+<Konsolenausgabe>
+
+
+
+== Aufgabe 2
+
+=== Loesung 2 a)
+
+<Ergebnis des Kasiki-Test (numerisch)>
+
+=== Loesung 2 b)
+
+<Schluessel (Großbuchstaben)>
+
+=== Loesung 2 c)
+
+<Plaintext des Chiffrats (Großbuchstaben und Leerzeichen)>
+
+=== Loesung 2 d)
+
+<Verschluesselter Vorname -- wie in den Studierendeninformationen angegeben (Großbuchstaben)>
+
+
+
+== Aufgabe 3
+
+Geben Sie Ihren Code pro Teilaufgabe separat ab. Folgen Sie der genannten Bennenungskonvention ("[Matrikelnummer]_Aufgabe3a.[Dateiendung]", "[Matrikelnummer]_Aufgabe3b.[Dateiendung]", "[Matrikelnummer]_Aufgabe3c.[Dateiendung]" ).
+Falls Ihr Code jeweilse aus mehreren Dateien besteht, soll der Code als ZIP-Archiv abgegeben werden.
+
+=== Loesung 3 a)
+
+<Chiffrat (ASCII)>
+
+=== Loesung 3 b)
+
+<Chiffrat (ASCII)>
+
+=== Loesung 3 c)
+
+<Chiffrat (ASCII)>
+
+
+
+== Aufgabe 4
+
+=== Loesung 4 a)
+
+p = <Groesserer der beiden Primfaktoren (numerisch)>
+q = <Kleinerer der beiden Primfaktoren (numerisch)>
+
+=== Loesung 4 b)
+
+<Ergebnis von Phi(N) (numerisch)>
+
+=== Loesung 4 c)
+
+<Privater Schluessel d (numerisch)>
+
+=== Loesung 4 d)
+
+<Signatur (numerisch)>
+
+
+
+== Aufgabe 5
+
+=== Loesung 5 a)
+
+<Das Ihnen hier zugewiesene Passwort ohne vor- oder nachgestellte Whitespaces (Zeichenkette)>
+
+=== Loesung 5 b)
+
+<Das Ihnen hier zugewiesene Passwort ohne vor- oder nachgestellte Whitespaces (Zeichenkette)>
+
+=== Loesung 5 c)
+
+<Anzahl der Hash-Iterationen (numerisch)>
+
+
+
+== Aufgabe 6
+
+=== Loesung 6 a)
+
+<Ausgetauschter Schluessel (numerisch)>
+
+=== Loesung 6 b) - i)
+
+<Von Alice erzeugter Schluessel (numerisch)>
+
+=== Loesung 6 b) - ii)
+
+<Von Bob erzeugter Schluessel (numerisch)>
+
+=== Loesung 6 b) - iii)
+
+<Von Alice gesendete Nachricht (numerisch)>
+
+=== Loesung 6 b) - iv)
+
+<Von Eve weitergeleitete  Nachricht (numerisch)>
+
+=== Loesung 6 b) - v)
+
+<Name des Angriffs (Zeichenkette)>
+
+
+
+== Aufgabe 7
+
+=== Loesung 7 a)
+
+Anzahl Hosts in 46.63.166.205/13: <Ihre Antwort (numerisch)>
+Erster Host in 46.63.166.205/13: <Ihre Antwort (IP-Adresse)>
+Letzter Host in 46.63.166.205/13: <Ihre Antwort (IP-Adresse)>
+Erster Host in 107.233.9/20: <Ihre Antwort (numerisch)>
+Anzahl Hosts in 107.233.9/20: <Ihre Antwort (IP-Adresse)>
+Letzter Host in 107.233.9/20: <Ihre Antwort (IP-Adresse)>
+
+=== Loesung 7 b)
+
+<Schritte, Beschreibung und Tabelle als Fliesstext (Fliesstext).
+Stellen Sie sicher, dass sie kein Doppeltes =-Zeichen in ihrem Text nutzen.
+
+Tabellen stelle Sie folgendermaßen da:
+| - | - |
+| IP Adresse |MAC Adresse |
+| ... | ... |
+| ... | ... |
+| ... | ... |
+| _ | _
+>
+
+
+
+== Aufgabe 8
+
+Hier muessen Sie nichts eintragen. Haengen Sie ihre verschluesselte Nachricht einfach an die Abgabe an. Folgen Sie der genannten Bennenungskonvention ("[Matrikelnummer]_Aufgabe8.enc").
