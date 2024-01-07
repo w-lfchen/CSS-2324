@@ -2,9 +2,11 @@ use std::io;
 
 fn main() {
     const MATR_NR: &str = "0000000"; // TODO: add correct number
-    let _ = encrypt_ecb(MATR_NR);
-    let _ = encrypt_cbc(MATR_NR);
-    let _ = encrypt_ctr(MATR_NR);
+
+    const MESSAGE: &str = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
+    let _ = encrypt_ecb(MESSAGE, MATR_NR);
+    let _ = encrypt_cbc(MESSAGE, MATR_NR);
+    let _ = encrypt_ctr(MESSAGE, MATR_NR);
 
     let (mut a, mut b);
     // get a and b
@@ -70,9 +72,8 @@ fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
 
 // 3
 // 3a
-fn encrypt_ecb(key: &str) -> String {
+fn encrypt_ecb(message: &str, key: &str) -> String {
     // maybe change return type?
-    let message = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
     let mut cipher_vec = Vec::<u8>::new();
     // iterate over blocks
     for i in 0..15 {
@@ -90,13 +91,15 @@ fn encrypt_ecb(key: &str) -> String {
 }
 
 // 3b
-fn encrypt_cbc(key: &str) -> String {
+fn encrypt_cbc(message: &str, key: &str) -> String {
+    let _ = message;
     let _ = key;
     todo!();
 }
 
 // 3c
-fn encrypt_ctr(key: &str) -> String {
+fn encrypt_ctr(message: &str, key: &str) -> String {
+    let _ = message;
     let _ = key;
     todo!();
 }
