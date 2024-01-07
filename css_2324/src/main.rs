@@ -1,6 +1,11 @@
 use std::io;
 
 fn main() {
+    const MATR_NR: &str = "0000000"; // TODO: add correct number
+    let _ = encrypt_ecb(MATR_NR);
+    let _ = encrypt_cbc(MATR_NR);
+    let _ = encrypt_ctr(MATR_NR);
+
     let (mut a, mut b);
     // get a and b
     while {
@@ -65,21 +70,33 @@ fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
 
 // 3
 // 3a
-fn encrypt_ecb() -> String { // maybe change return type?
+fn encrypt_ecb(key: &str) -> String {
+    // maybe change return type?
     let message = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
-    let key = "0000000"; // TODO: add correct number
+    let mut cipher_vec = Vec::<u8>::new();
     // iterate over blocks
-    // iterate through blocks, encrypt
-    todo!();
-    return String::from("");
+    for i in 0..15 {
+        // iterate through blocks, encrypt
+        for j in 0..7 {
+            let msg_byte = message.as_bytes()[i * 7 + j];
+            let key_byte = key.as_bytes()[j];
+            cipher_vec.push(msg_byte ^ key_byte);
+        }
+    }
+    // all numbers are in the vec, now convert to string and return
+    std::str::from_utf8(&cipher_vec)
+        .expect("3a: bytes to utf8 conversion failed!")
+        .to_string()
 }
 
 // 3b
-fn encrypt_cbc() {
+fn encrypt_cbc(key: &str) -> String {
+    let _ = key;
     todo!();
 }
 
 // 3c
-fn encrypt_ctr() {
+fn encrypt_ctr(key: &str) -> String {
+    let _ = key;
     todo!();
 }
