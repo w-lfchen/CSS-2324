@@ -123,7 +123,31 @@ fn encrypt_cbc(message: &str, key: &str) -> String {
 
 // 3c
 fn encrypt_ctr(message: &str, key: &str) -> String {
-    let _ = message;
-    let _ = key;
-    todo!();
+    let message_bytes = message.as_bytes();
+    let key_bytes = key.as_bytes();
+    // set up initial vector
+    let iv = [0_u8; 7];
+    let mut cipher_vec = Vec::<u8>::with_capacity(105);
+    // iterate over blocks
+    for i in 0..15 {
+        // get iv value
+        // TODO: this looks scuffed, improve this bit
+        let mut tmp = iv;
+        tmp[6] += i as u8;
+        // encrypt
+        for j in 0..7 {
+            let tmp_byte = tmp[j];
+            let key_byte = key_bytes[j];
+            tmp[j] = tmp_byte ^ key_byte;
+        }
+        // xor the now encrypted value in tmp
+        for j in 0..7 {
+            let msg_byte = message_bytes[i * 7 + j];
+            let tmp_byte = tmp[j];
+            cipher_vec.push(msg_byte ^ tmp_byte);
+        }
+    }
+    std::str::from_utf8(&cipher_vec)
+        .expect("3c: bytes to utf8 conversion failed!")
+        .to_string()
 }
