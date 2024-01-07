@@ -73,14 +73,15 @@ fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
 // 3
 // 3a
 fn encrypt_ecb(message: &str, key: &str) -> String {
-    // maybe change return type?
-    let mut cipher_vec = Vec::<u8>::new();
+    let mut cipher_vec = Vec::<u8>::with_capacity(105);
+    let message_bytes = message.as_bytes();
+    let key_bytes = key.as_bytes();
     // iterate over blocks
     for i in 0..15 {
         // iterate through blocks, encrypt
         for j in 0..7 {
-            let msg_byte = message.as_bytes()[i * 7 + j];
-            let key_byte = key.as_bytes()[j];
+            let msg_byte = message_bytes[i * 7 + j];
+            let key_byte = key_bytes[j];
             cipher_vec.push(msg_byte ^ key_byte);
         }
     }
@@ -92,9 +93,32 @@ fn encrypt_ecb(message: &str, key: &str) -> String {
 
 // 3b
 fn encrypt_cbc(message: &str, key: &str) -> String {
-    let _ = message;
-    let _ = key;
-    todo!();
+    let message_bytes = message.as_bytes();
+    let key_bytes = key.as_bytes();
+    // set up initial vector in buffer
+    let mut buffer = [0_u8; 7];
+    let mut cipher_vec = Vec::<u8>::with_capacity(105);
+    // iterate over blocks
+    for i in 0..15 {
+        // get block^buffer
+        let mut tmp = Vec::<u8>::with_capacity(7);
+        for j in 0..7 {
+            let msg_byte = message_bytes[i * 7 + j];
+            let buf_byte = buffer[j];
+            tmp.push(msg_byte ^ buf_byte);
+        }
+        // encrypt to get encrypted block
+        for j in 0..7 {
+            let tmp_byte = tmp[j];
+            let key_byte = key_bytes[j];
+            buffer[j] = tmp_byte ^ key_byte;
+        }
+        // copy into cipher
+        cipher_vec.extend(buffer);
+    }
+    std::str::from_utf8(&cipher_vec)
+        .expect("3b: bytes to utf8 conversion failed!")
+        .to_string()
 }
 
 // 3c
