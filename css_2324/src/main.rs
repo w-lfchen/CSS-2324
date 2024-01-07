@@ -62,3 +62,24 @@ fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
     println!("d: {}, x: {}, y: {}", tuple.0, tuple.1, tuple.2);
     tuple
 }
+
+// 3
+// 3a
+fn encrypt_ecb() -> String { // maybe change return type?
+    let message = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
+    let key = "0000000"; // TODO: add correct number
+    // iterate over blocks
+    // iterate through blocks, encrypt
+    todo!();
+    return String::from("");
+}
+
+// 3b
+fn encrypt_cbc() {
+    todo!();
+}
+
+// 3c
+fn encrypt_ctr() {
+    todo!();
+}
