@@ -8,6 +8,14 @@ fn main() {
     let _ = encrypt_cbc(MESSAGE, MATR_NR);
     let _ = encrypt_ctr(MESSAGE, MATR_NR);
 
+    // exercise 1
+    let (a, b) = get_a_b();
+    println!("Calculation of ggT({a}, {b}):");
+    let (d, k, l) = extended_euclidian_algorithm(a, b);
+    println!("ggT({a}, {b}) = {d} = {k} * {a} + {l} * {b}");
+}
+
+fn get_a_b() -> (i32, i32) {
     let (mut a, mut b);
     // get a and b
     while {
@@ -31,10 +39,7 @@ fn main() {
     } {
         println!("a: {a} needs to be greater than b: {b}!")
     }
-    // numbers are good, calculate now
-    println!("Calculation of ggT({a}, {b}):");
-    let (d, k, l) = extended_euclidian_algorithm(a, b);
-    println!("ggT({a}, {b}) = {d} = {k} * {a} + {l} * {b}");
+    (a, b)
 }
 
 fn read_i32() -> i32 {
@@ -70,7 +75,7 @@ fn extended_euclidian_algorithm(a: i32, b: i32) -> (i32, i32, i32) {
     tuple
 }
 
-// 3
+// exercise 3
 // 3a
 fn encrypt_ecb(message: &str, key: &str) -> String {
     let mut cipher_vec = Vec::<u8>::with_capacity(105);
