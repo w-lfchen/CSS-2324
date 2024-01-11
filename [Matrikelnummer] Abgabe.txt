@@ -22,15 +22,20 @@ Falls Ihr Code aus mehreren Dateien besteht, soll der Code als ZIP-Archiv abgege
 
 === Loesung 2 a)
 
-<Ergebnis des Kasiki-Test (numerisch)>
+4
 
 === Loesung 2 b)
 
-<Schluessel (Großbuchstaben)>
+XMAS
 
 === Loesung 2 c)
 
-<Plaintext des Chiffrats (Großbuchstaben und Leerzeichen)>
+NEVER GONNA GIVE YOU UP
+NEVER GONNA LET YOU DOWN
+NEVER GONNA RUN AROUND AND DESERT YOU
+NEVER GONNA MAKE YOU CRY
+NEVER GONNA SAY GOODBYE
+NEVER GONNA TELL A LIE AND HURT YOU
 
 === Loesung 2 d)
 
