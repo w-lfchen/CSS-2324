@@ -66,16 +66,16 @@ Falls Ihr Code jeweilse aus mehreren Dateien besteht, soll der Code als ZIP-Arch
 
 === Loesung 4 a)
 
-p = <Groesserer der beiden Primfaktoren (numerisch)>
-q = <Kleinerer der beiden Primfaktoren (numerisch)>
+p = 15045822468683077193
+q = 11309341624386358171
 
 === Loesung 4 b)
 
-<Ergebnis von Phi(N) (numerisch)>
+170158346318205037787035915821869858640
 
 === Loesung 4 c)
 
-<Privater Schluessel d (numerisch)>
+130641584321728533291580117741261053713
 
 === Loesung 4 d)
 
