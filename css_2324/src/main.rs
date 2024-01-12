@@ -4,22 +4,28 @@ fn main() {
     const MATR_NR: &str = "0000000"; // TODO: add correct number
     const SHA_256_HASH_5A: &str = "";
     const SALT_5A: &str = "";
-    
+    const SHA_256_HASH_5B: &str = "";
+    const SALT_5B: &str = "";
+
     // exercise 1
     let (a, b) = get_a_b();
     println!("Calculation of ggT({a}, {b}):");
     let (d, k, l) = extended_euclidian_algorithm(a, b);
     println!("ggT({a}, {b}) = {d} = {k} * {a} + {l} * {b}");
-    
+
     // exercise 3
     const MESSAGE: &str = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
     let _ = encrypt_ecb(MESSAGE, MATR_NR);
     let _ = encrypt_cbc(MESSAGE, MATR_NR);
     let _ = encrypt_ctr(MESSAGE, MATR_NR);
-    
+
     // exercise 5
     const PASSWORDS_PATH: &str = "../rockyou-75.txt";
     let _ = find_password_5a(SHA_256_HASH_5A, SALT_5A, PASSWORDS_PATH);
+    match find_password_5b(SHA_256_HASH_5B, SALT_5B, PASSWORDS_PATH) {
+        Ok((password, iterations)) => println!("Password: <{password}>, iterations: {iterations}"),
+        Err(e) => println!("{}", e),
+    }
 }
 
 fn find_password_5a(sha256_hash: &str, salt: &str, path: &str) -> String {
@@ -40,6 +46,36 @@ fn find_password_5a(sha256_hash: &str, salt: &str, path: &str) -> String {
     }
     // don't feel like returning an Option
     panic!("Unable to find password for hash: <{sha256_hash}> with salt: <{salt}>");
+}
+
+fn find_password_5b(
+    sha256_hash: &str,
+    salt: &str,
+    path: &str,
+) -> Result<(String, i32), std::io::Error> {
+    use crypto::digest::Digest;
+    use crypto::sha2::Sha256;
+    use std::fs::read_to_string;
+
+    let mut hasher = Sha256::new();
+    let string = read_to_string(path)?;
+    let lines = string.lines();
+    let mut buffer;
+    for password in lines {
+        buffer = password.to_owned() + salt;
+        for i in 1..101 {
+            hasher.input_str(&buffer);
+            buffer = hasher.result_str();
+            if buffer == sha256_hash {
+                return Ok((password.to_owned(), i));
+            }
+            hasher.reset();
+        }
+    }
+    Err(std::io::Error::new(
+        std::io::ErrorKind::Other,
+        format!("Unable to find password for hash: <{sha256_hash}> with salt: <{salt}>"),
+    ))
 }
 
 fn get_a_b() -> (i32, i32) {
