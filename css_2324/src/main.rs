@@ -1,5 +1,3 @@
-use std::io;
-
 fn main() {
     const MATR_NR: &str = "0000000"; // TODO: add correct number
     const CSS_ID: i32 = 0; // TODO: add correct number
@@ -120,7 +118,7 @@ fn get_a_b() -> (i32, i32) {
             a = read_i32();
             a <= 0
         } {
-            println!("a: {a} needs to be greater than 0!");
+            println!("a needs to be greater than 0!");
         }
         // a is now valid
         println!("Please enter the second number (b) and press enter.");
@@ -128,12 +126,12 @@ fn get_a_b() -> (i32, i32) {
             b = read_i32();
             b <= 0
         } {
-            println!("b : {b} needs to be greater than 0!");
+            println!("b needs to be greater than 0!");
         }
         // b is now valid, now last checks
         a <= b
     } {
-        println!("a: {a} needs to be greater than b: {b}!")
+        println!("a needs to be greater than b!")
     }
     (a, b)
 }
@@ -144,7 +142,7 @@ fn read_i32() -> i32 {
     let mut val;
     while {
         // get input
-        io::stdin()
+        std::io::stdin()
             .read_line(&mut buffer)
             .expect("Unable to read from stdin!");
         input = buffer.trim();
