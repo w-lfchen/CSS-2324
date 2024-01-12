@@ -2,10 +2,7 @@ use std::io;
 
 fn main() {
     const MATR_NR: &str = "0000000"; // TODO: add correct number
-    const SHA_256_HASH_5A: &str = ""; // TODO: use CSS ID, write csv parser?
-    const SALT_5A: &str = "";
-    const SHA_256_HASH_5B: &str = "";
-    const SALT_5B: &str = "";
+    const CSS_ID: i32 = 0; // TODO: add correct number
 
     // exercise 1
     let (a, b) = get_a_b();
@@ -21,11 +18,15 @@ fn main() {
 
     // exercise 5
     const PASSWORDS_PATH: &str = "../rockyou-75.txt";
-    match find_password_5a(SHA_256_HASH_5A, SALT_5A, PASSWORDS_PATH) {
+    const CSV_5A_PATH: &str = "../Passwords_5a.csv";
+    const CSV_5B_PATH: &str = "../Passwords_5b.csv";
+
+    match find_password_5a(CSS_ID, CSV_5A_PATH, PASSWORDS_PATH) {
         Ok(password) => println!("5a: Found password: <{password}>"),
         Err(e) => println!("5a: {}", e),
     }
-    match find_password_5b(SHA_256_HASH_5B, SALT_5B, PASSWORDS_PATH) {
+
+    match find_password_5b(CSS_ID, CSV_5B_PATH, PASSWORDS_PATH) {
         Ok((password, iterations)) => {
             println!("5b: Found password: <{password}>; Number of iterations: {iterations}")
         }
@@ -33,47 +34,72 @@ fn main() {
     }
 }
 
-fn find_password_5a(sha256_hash: &str, salt: &str, path: &str) -> Result<String, std::io::Error> {
+fn get_data_from_css_id(css_id: i32, path: &str) -> Result<(String, String), std::io::Error> {
+    match (std::fs::read_to_string(path)?
+        .lines()
+        .find(|line| line.starts_with(&css_id.to_string()))
+        .ok_or(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            format!("Invalid CSS ID: {css_id}"),
+        ))?
+        .split('$')
+        .collect::<Vec<&str>>())[..]
+    {
+        [_, hash, salt, ..] => Ok((hash.to_string(), salt.to_owned())),
+        _ => Err(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            format!("Line with CSS ID <{css_id}> did not match expected pattern!"),
+        )),
+    }
+}
+
+fn find_password_5a(
+    css_id: i32,
+    csv_path: &str,
+    passwords_path: &str,
+) -> Result<String, std::io::Error> {
     use crypto::digest::Digest;
     use crypto::sha2::Sha256;
     use std::fs::read_to_string;
 
+    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
     let mut hasher = Sha256::new();
-    let string = read_to_string(path)?;
-    let lines = string.lines();
-    for password in lines {
-        hasher.input_str(&(password.to_owned() + salt));
+    let buffer = read_to_string(passwords_path)?;
+    let passwords = buffer.lines();
+    for password in passwords {
+        hasher.input_str(&(password.to_owned() + &salt));
         let hashed_str = hasher.result_str();
-        if hashed_str == sha256_hash {
+        if hashed_str == hash {
             return Ok(password.to_owned());
         }
         hasher.reset();
     }
     Err(std::io::Error::new(
         std::io::ErrorKind::Other,
-        format!("Unable to find password for hash: <{sha256_hash}> with salt: <{salt}>"),
+        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
     ))
 }
 
 fn find_password_5b(
-    sha256_hash: &str,
-    salt: &str,
-    path: &str,
+    css_id: i32,
+    csv_path: &str,
+    passwords_path: &str,
 ) -> Result<(String, i32), std::io::Error> {
     use crypto::digest::Digest;
     use crypto::sha2::Sha256;
     use std::fs::read_to_string;
 
+    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
     let mut hasher = Sha256::new();
-    let string = read_to_string(path)?;
-    let lines = string.lines();
+    let buffer = read_to_string(passwords_path)?;
+    let passwords = buffer.lines();
     let mut buffer;
-    for password in lines {
-        buffer = password.to_owned() + salt;
+    for password in passwords {
+        buffer = password.to_owned() + &salt;
         for i in 1..101 {
             hasher.input_str(&buffer);
             buffer = hasher.result_str();
-            if buffer == sha256_hash {
+            if buffer == hash {
                 return Ok((password.to_owned(), i));
             }
             hasher.reset();
@@ -81,7 +107,7 @@ fn find_password_5b(
     }
     Err(std::io::Error::new(
         std::io::ErrorKind::Other,
-        format!("Unable to find password for hash: <{sha256_hash}> with salt: <{salt}>"),
+        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
     ))
 }
 
