@@ -131,12 +131,12 @@ man-in-the-middle (MITM)-Angriff
 
 === Loesung 7 a)
 
-Anzahl Hosts in 46.63.166.205/13: <Ihre Antwort (numerisch)>
-Erster Host in 46.63.166.205/13: <Ihre Antwort (IP-Adresse)>
-Letzter Host in 46.63.166.205/13: <Ihre Antwort (IP-Adresse)>
-Erster Host in 107.233.9/20: <Ihre Antwort (numerisch)>
-Anzahl Hosts in 107.233.9/20: <Ihre Antwort (IP-Adresse)>
-Letzter Host in 107.233.9/20: <Ihre Antwort (IP-Adresse)>
+Anzahl Hosts in 46.63.166.205/13: 524286
+Erster Host in 46.63.166.205/13: 46.56.0.1
+Letzter Host in 46.63.166.205/13: 46.63.255.254
+Erster Host in 107.233.9/20: 10.7.224.1
+Anzahl Hosts in 107.233.9/20: 4094
+Letzter Host in 107.233.9/20: 10.7.239.254
 
 === Loesung 7 b)
 
