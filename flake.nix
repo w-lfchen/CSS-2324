@@ -21,5 +21,8 @@
           export RUSTC_WRAPPER=sccache
         '';
       };
+      packages.${system}.ex_8 = pkgs.writeShellScriptBin "ex_8" ''
+        ${pkgs.openssl}/bin/openssl pkeyutl -encrypt -pubin -inkey pub_key.pub -in $1 -out $2
+      '';
     };
 }
