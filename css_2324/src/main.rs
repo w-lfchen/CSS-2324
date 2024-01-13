@@ -10,6 +10,7 @@ fn main() {
 
     // exercise 3
     const MESSAGE: &str = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
+
     let _ = encrypt_ecb(MESSAGE, MATR_NR);
     let _ = encrypt_cbc(MESSAGE, MATR_NR);
     let _ = encrypt_ctr(MESSAGE, MATR_NR);
@@ -23,90 +24,12 @@ fn main() {
         Ok(password) => println!("5a: Found password: <{password}>"),
         Err(e) => println!("5a: {}", e),
     }
-
     match find_password_5b(CSS_ID, CSV_5B_PATH, PASSWORDS_PATH) {
         Ok((password, iterations)) => {
             println!("5b: Found password: <{password}>; Number of iterations: {iterations}")
         }
         Err(e) => println!("5b: {}", e),
     }
-}
-
-fn get_data_from_css_id(css_id: i32, path: &str) -> Result<(String, String), std::io::Error> {
-    match (std::fs::read_to_string(path)?
-        .lines()
-        .find(|line| line.starts_with(&css_id.to_string()))
-        .ok_or(std::io::Error::new(
-            std::io::ErrorKind::Other,
-            format!("Invalid CSS ID: {css_id}"),
-        ))?
-        .split('$')
-        .collect::<Vec<&str>>())[..]
-    {
-        [_, hash, salt, ..] => Ok((hash.to_string(), salt.to_owned())),
-        _ => Err(std::io::Error::new(
-            std::io::ErrorKind::Other,
-            format!("Line with CSS ID <{css_id}> did not match expected pattern!"),
-        )),
-    }
-}
-
-fn find_password_5a(
-    css_id: i32,
-    csv_path: &str,
-    passwords_path: &str,
-) -> Result<String, std::io::Error> {
-    use crypto::digest::Digest;
-    use crypto::sha2::Sha256;
-    use std::fs::read_to_string;
-
-    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
-    let mut hasher = Sha256::new();
-    let buffer = read_to_string(passwords_path)?;
-    let passwords = buffer.lines();
-    for password in passwords {
-        hasher.input_str(&(password.to_owned() + &salt));
-        let hashed_str = hasher.result_str();
-        if hashed_str == hash {
-            return Ok(password.to_owned());
-        }
-        hasher.reset();
-    }
-    Err(std::io::Error::new(
-        std::io::ErrorKind::Other,
-        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
-    ))
-}
-
-fn find_password_5b(
-    css_id: i32,
-    csv_path: &str,
-    passwords_path: &str,
-) -> Result<(String, i32), std::io::Error> {
-    use crypto::digest::Digest;
-    use crypto::sha2::Sha256;
-    use std::fs::read_to_string;
-
-    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
-    let mut hasher = Sha256::new();
-    let buffer = read_to_string(passwords_path)?;
-    let passwords = buffer.lines();
-    let mut buffer;
-    for password in passwords {
-        buffer = password.to_owned() + &salt;
-        for i in 1..101 {
-            hasher.input_str(&buffer);
-            buffer = hasher.result_str();
-            if buffer == hash {
-                return Ok((password.to_owned(), i));
-            }
-            hasher.reset();
-        }
-    }
-    Err(std::io::Error::new(
-        std::io::ErrorKind::Other,
-        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
-    ))
 }
 
 fn get_a_b() -> (i32, i32) {
@@ -249,4 +172,84 @@ fn encrypt_ctr(message: &str, key: &str) -> String {
     std::str::from_utf8(&cipher_vec)
         .expect("3c: bytes to utf8 conversion failed!")
         .to_string()
+}
+
+// exercise 5
+fn get_data_from_css_id(css_id: i32, path: &str) -> Result<(String, String), std::io::Error> {
+    match (std::fs::read_to_string(path)?
+        .lines()
+        .find(|line| line.starts_with(&css_id.to_string()))
+        .ok_or(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            format!("Invalid CSS ID: {css_id}"),
+        ))?
+        .split('$')
+        .collect::<Vec<&str>>())[..]
+    {
+        [_, hash, salt, ..] => Ok((hash.to_string(), salt.to_owned())),
+        _ => Err(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            format!("Line with CSS ID <{css_id}> did not match expected pattern!"),
+        )),
+    }
+}
+
+// 5a
+fn find_password_5a(
+    css_id: i32,
+    csv_path: &str,
+    passwords_path: &str,
+) -> Result<String, std::io::Error> {
+    use crypto::digest::Digest;
+    use crypto::sha2::Sha256;
+    use std::fs::read_to_string;
+
+    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
+    let mut hasher = Sha256::new();
+    let buffer = read_to_string(passwords_path)?;
+    let passwords = buffer.lines();
+    for password in passwords {
+        hasher.input_str(&(password.to_owned() + &salt));
+        let hashed_str = hasher.result_str();
+        if hashed_str == hash {
+            return Ok(password.to_owned());
+        }
+        hasher.reset();
+    }
+    Err(std::io::Error::new(
+        std::io::ErrorKind::Other,
+        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
+    ))
+}
+
+// 5b
+fn find_password_5b(
+    css_id: i32,
+    csv_path: &str,
+    passwords_path: &str,
+) -> Result<(String, i32), std::io::Error> {
+    use crypto::digest::Digest;
+    use crypto::sha2::Sha256;
+    use std::fs::read_to_string;
+
+    let (hash, salt) = get_data_from_css_id(css_id, csv_path)?;
+    let mut hasher = Sha256::new();
+    let buffer = read_to_string(passwords_path)?;
+    let passwords = buffer.lines();
+    let mut buffer;
+    for password in passwords {
+        buffer = password.to_owned() + &salt;
+        for i in 1..101 {
+            hasher.input_str(&buffer);
+            buffer = hasher.result_str();
+            if buffer == hash {
+                return Ok((password.to_owned(), i));
+            }
+            hasher.reset();
+        }
+    }
+    Err(std::io::Error::new(
+        std::io::ErrorKind::Other,
+        format!("Unable to find password for hash: <{hash}> with salt: <{salt}>"),
+    ))
 }
