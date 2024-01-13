@@ -103,27 +103,27 @@ q = 11309341624386358171
 
 === Loesung 6 a)
 
-<Ausgetauschter Schluessel (numerisch)>
+14
 
 === Loesung 6 b) - i)
 
-<Von Alice erzeugter Schluessel (numerisch)>
+25
 
 === Loesung 6 b) - ii)
 
-<Von Bob erzeugter Schluessel (numerisch)>
+40
 
 === Loesung 6 b) - iii)
 
-<Von Alice gesendete Nachricht (numerisch)>
+40
 
 === Loesung 6 b) - iv)
 
-<Von Eve weitergeleitete  Nachricht (numerisch)>
+59
 
 === Loesung 6 b) - v)
 
-<Name des Angriffs (Zeichenkette)>
+man-in-the-middle (MITM)-Angriff
 
 
 
