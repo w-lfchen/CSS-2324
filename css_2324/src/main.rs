@@ -11,9 +11,13 @@ fn main() {
     // exercise 3
     const MESSAGE: &str = "Das CSS Team wuenscht Ihnen einen guten Rutsch ins neue Jahr! Wir freuen uns Sie in 2024 wieder zu sehen.";
 
-    let _ = encrypt_ecb(MESSAGE, MATR_NR);
-    let _ = encrypt_cbc(MESSAGE, MATR_NR);
-    let _ = encrypt_ctr(MESSAGE, MATR_NR);
+    let ecb_str = encrypt_ecb(MESSAGE, MATR_NR);
+    let cbc_str = encrypt_cbc(MESSAGE, MATR_NR);
+    let ctr_str = encrypt_ctr(MESSAGE, MATR_NR);
+
+    println!("{ecb_str}");
+    println!("{cbc_str}");
+    println!("{ctr_str}");
 
     // exercise 5
     const PASSWORDS_PATH: &str = "../rockyou-75.txt";
