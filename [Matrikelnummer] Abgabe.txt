@@ -140,17 +140,38 @@ Letzter Host in 107.233.9/20: 10.7.239.254
 
 === Loesung 7 b)
 
-<Schritte, Beschreibung und Tabelle als Fliesstext (Fliesstext).
-Stellen Sie sicher, dass sie kein Doppeltes =-Zeichen in ihrem Text nutzen.
+Nehme an:
+Bobs IP-Adresse: 10.7.224.1
+Daves IP-Adresse: 10.7.224.2
+Evils IP-Adresse: 10.7.224.3
 
-Tabellen stelle Sie folgendermaßen da:
+Zu Beginn sind alle IP/MAC-Adresstabellen leer.
+
+1.:
+Bob schickt Anfrage via Broadcast:
+who has 10.7.224.2?
+tell 10.7.224.1
+
+2.:
+Evil antwortet per Definition schneller als Dave mit eigener MAC-Adresse
+192.168.0.2 is at
+df:29:70:d7:f9:e2
+
+3.:
+Bob speichert Evils MAC-Adresse ab, als ob sie die von Dave wäre.
+Bobs Tabelle:
 | - | - |
 | IP Adresse |MAC Adresse |
-| ... | ... |
-| ... | ... |
-| ... | ... |
-| _ | _
->
+| 10.7.224.2 | df:29:70:d7:f9:e2 |
+
+4.:
+Nun schickt Bob eine Nachricht, an die MAC-Adresse, die er mit Dave assoziiert.
+Somit sendet er an df:29:70:d7:f9:e2, die Nachricht landet somit bei Evil.
+
+5.:
+Evil kann nun mit der Nachricht tun, was sie will.
+Da sie unbemerkt bleiben will, leitet sie die Nachricht einfach an Dave weiter, kann diese aber nun lesen, also die Verbindung abhören.
+Da Dave offenbar keine Verbindung zu Bob aufbauen wollte, muss Evil nun nichts weiter tun, bis Bob erneut nach der MAC-Adresse von Dave fragt, sobald sein lokaler Cache nicht mehr gültig ist, dann beginnt das Ganze wieder bei Schritt 1.
 
 
 
