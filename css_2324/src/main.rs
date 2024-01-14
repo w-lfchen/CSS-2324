@@ -110,6 +110,11 @@ fn encrypt_ecb(message: &str, key: &str) -> String {
     // all numbers are in the vec, now convert to string and return
     std::str::from_utf8(&cipher_vec)
         .expect("3a: bytes to utf8 conversion failed!")
+        .bytes()
+        .fold(String::new(), |string, byte| {
+            string + &format!("{:02X} ", byte)
+        })
+        .trim()
         .to_string()
 }
 
@@ -140,6 +145,11 @@ fn encrypt_cbc(message: &str, key: &str) -> String {
     }
     std::str::from_utf8(&cipher_vec)
         .expect("3b: bytes to utf8 conversion failed!")
+        .bytes()
+        .fold(String::new(), |string, byte| {
+            string + &format!("{:02X} ", byte)
+        })
+        .trim()
         .to_string()
 }
 
@@ -147,20 +157,20 @@ fn encrypt_cbc(message: &str, key: &str) -> String {
 fn encrypt_ctr(message: &str, key: &str) -> String {
     let message_bytes = message.as_bytes();
     let key_bytes = key.as_bytes();
-    // set up initial vector
-    let iv = [0_u8; 7];
+    // set up initial vector in buffer
+    let mut buffer = [0_u8; 7];
     let mut cipher_vec = Vec::<u8>::with_capacity(105);
     // iterate over blocks
     for i in 0..15 {
         // get iv value
         // TODO: this looks scuffed, improve this bit
-        let mut tmp = iv;
-        tmp[6] += i as u8;
+        buffer[6] += 1;
+        let mut tmp = [0; 7];
         // encrypt
         for j in 0..7 {
-            let tmp_byte = tmp[j];
+            let buf_byte = buffer[j];
             let key_byte = key_bytes[j];
-            tmp[j] = tmp_byte ^ key_byte;
+            tmp[j] = buf_byte ^ key_byte;
         }
         // xor the now encrypted value in tmp
         for j in 0..7 {
@@ -171,6 +181,11 @@ fn encrypt_ctr(message: &str, key: &str) -> String {
     }
     std::str::from_utf8(&cipher_vec)
         .expect("3c: bytes to utf8 conversion failed!")
+        .bytes()
+        .fold(String::new(), |string, byte| {
+            string + &format!("{:02X} ", byte)
+        })
+        .trim()
         .to_string()
 }
 
